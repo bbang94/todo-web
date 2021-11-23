@@ -2,8 +2,8 @@ import axios from 'axios'
 //import { Toast } from 'vant'
 // import router from '../router'
 
-axios.defaults.baseURL = 'http://127.0.0.1:9999/api'
-//axios.defaults.withCredentials = true
+axios.defaults.baseURL = 'http://152.136.146.30:9999/api'
+axios.defaults.withCredentials = true
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.headers['token'] = localStorage.getItem('token') || ''
 axios.defaults.headers.post['Content-Type'] = 'application/json'
