@@ -79,7 +79,7 @@ import sHeader from '@/components/SimpleHeader'
 import vueImgVerify from '@/components/VueImageVerify'
 import {login, register} from '@/service/user'
 import {setLocal} from '@/common/js/utils'
-import md5 from 'js-md5'
+// import md5 from 'js-md5'
 import {Toast} from 'vant'
 import {useRouter} from 'vue-router'
 
@@ -118,16 +118,18 @@ export default {
           setLocal('token', response.token)
           setLocal('userid', response.userid)
           router.push("/home")
-        }).catch(()=>{
+        }).catch(() => {
           Toast.fail("登陆失败")
         })
 
         // 需要刷新页面，否则 axios.js 文件里的 token 不会被重置
-        //window.location.href = '/'
+        window.location.href = '/'
       } else {
         await register({
           "Username": values.username1,
-          "Password": md5(values.password1)
+          "Password": values.password1,
+          "Nickname": "todoteam",
+          "Mobile": "123"
         })
         Toast.success('注册成功')
         state.type = 'login'

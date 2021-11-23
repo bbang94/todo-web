@@ -27,16 +27,16 @@ export default {
   data() {
     return {
       list: {
-        UserId:5,
-        Title:"",
-        Description:"",
-        State:0
+        UserId: parseInt(localStorage.getItem('userid')),
+        Title: "",
+        Description: "",
+        State: 0
       },
     };
   },
   methods: {
     onSubmit: function () {
-      createtodo(this.list).then(()=> {
+      createtodo(this.list).then(() => {
         Toast.success('增加成功')
       })
     },
