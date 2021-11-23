@@ -1,70 +1,73 @@
 <template>
   <div class="home">
     <s-header :name="home" :back="'/home'"></s-header>
-    <div>
+    <div id="app">
       <van-calendar
+          color="#009900"
           title="日历"
+          :row-height="34"
           :poppable="false"
           :show-confirm="false"
-          :style="{ height: '200px' }"
-          :show-mark="false"
-          v-model="show"
-          @confirm="onConfirm"
+          :style="{ height: '300px' }"
       />
-    </div>
-    <div>
-      <van-list
-          v-model="loading"
-          :finished="finished"
-          finished-text="没有更多了"
-          @load="onLoad"
-      >
-        <van-cell v-for="item in list" :key="item" :title="item"/>
-      </van-list>
+<!--      <div>{{ list }}</div>-->
+<!--      <button @click="println">123</button>-->
+      <div class="content">
+        <van-list
+            v-model="loading"
+            :finished="finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+        >
+          <div v-for="(item, index) in list" :key="index">
+            <van-card
+                :desc="item.Description"
+                :title="item.Title"
+                centered="true">
+            <template #tags>
+              <p class="name">{{ item.UpdatedAt }}</p>
+            </template>
+            </van-card>
+          </div>
+        </van-list>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
-
+import {todolist} from '@/service/todo';
 
 export default {
-  data() {
+  name: "App",
+  data: function () {
     return {
+      defaultListQuery: {
+        //UserId: parseInt(localStorage.getItem('userid')),
+        UserId: 5,
+        Title: '',
+        Description: '',
+        State: 0,
+      },
       list: [],
       loading: false,
       finished: false,
-      date: '',
     };
   },
+  created: function () {
+    this.querylist();
+  },
+
   methods: {
-    onLoad() {
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
-
-        // 加载状态结束
-        this.loading = false;
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true;
-        }
-      }, 1000);
-    },
-    //日期格式化函数
-    formatDate(date) {
-      return `${date.getMonth() + 1}/${date.getDate()}`;
-    },
-    //TODO: 点击日历日期查询操作
-    onConfirm(date) {
-      this.show = false;
-      this.date = this.formatDate(date);
+    querylist: function () {
+      todolist(this.defaultListQuery).then((response)=> {
+        this.list = response
+      })
     },
   },
 };
 </script>
 
-<style lang="less">
+<style>
 </style>

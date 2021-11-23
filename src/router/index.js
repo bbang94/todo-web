@@ -10,7 +10,15 @@ const router = createRouter({
     {
       path: '/home',
       name: 'home',
-      component: () => import(/* webpackChunkName: "login" */ '@/views/Home.vue'),
+      component: () => import('@/views/Home.vue'),
+      meta: {
+        index: 1
+      }
+    },
+    {
+      path: '/createtodo',
+      name: 'createtodo',
+      component: () => import('@/components/CreateTodo.vue'),
       meta: {
         index: 1
       }
